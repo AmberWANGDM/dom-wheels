@@ -1,4 +1,5 @@
-$('.test').find('.child').end().addClass('red')
+const node = $(`<div class="newDiv">新增div<span>子元素</span></div>`)
 
-$('.test').parent().print()
-$('.test').children().print()
+node.appendTo(document.body) //创建div插入到body中
+node.appendTo($('.test')) // 创建div插入到元素里面
+$('.chosenDiv').appendTo($('.test')) // 移动元素

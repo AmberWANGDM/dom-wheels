@@ -1,12 +1,36 @@
-window.$ = window.jQuery = function (selectorOrArray) {
+window.$ = window.jQuery = function (selectorOrArrayOrTemplate) {
   let elements
-  if (typeof selectorOrArray === 'string') {
-    elements = document.querySelectorAll(selectorOrArray)
-  } else if (selectorOrArray instanceof Array) {
-    elements = selectorOrArray
+  if (typeof selectorOrArrayOrTemplate === 'string') {
+    if (selectorOrArrayOrTemplate.trim().indexOf('<') === 0) {
+      // 创建div
+      elements = [createElement(selectorOrArrayOrTemplate)]
+    } else {
+      // 查找div
+      elements = document.querySelectorAll(selectorOrArrayOrTemplate)
+    }
+  } else if (selectorOrArrayOrTemplate instanceof Array) {
+    elements = selectorOrArrayOrTemplate
   }
+  function createElement(string) {
+    const container = document.createElement('template')
+    container.innerHTML = string.trim()
+    // console.log(container.content.firstChild)
+    return container.content.firstChild
+  }
+  // console.log(elements)
   return {
-    oldApi: selectorOrArray.oldApi,
+    jquery: true,
+    oldApi: selectorOrArrayOrTemplate.oldApi,
+    get(index) {
+      return elements[index]
+    },
+    appendTo(node) {
+      if (node instanceof Element) {
+        this.each((el) => node.appendChild(el))
+      } else if (node.jquery) {
+        this.each((el) => node.get(0).appendChild(el))
+      }
+    },
     addClass(className) {
       for (let i = 0; i < elements.length; i++) {
         elements[i].classList.add(className)

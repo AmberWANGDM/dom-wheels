@@ -1,1 +1,1 @@
-$('.test').find('.child').addClass('red')
+$('.test').find('.child').end().addClass('red')

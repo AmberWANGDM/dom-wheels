@@ -26,5 +26,30 @@ window.$ = window.jQuery = function (selectorOrArray) {
     end() {
       return this.oldApi
     },
+    each(fn) {
+      for (let i = 0; i < elements.length; i++) {
+        fn.call(undefined, elements[i], i)
+      }
+      return this
+    },
+    parent() {
+      let arr = []
+      this.each((node) => {
+        if (arr.indexOf(node.parentNode) === -1) {
+          arr.push(node.parentNode)
+        }
+      })
+      return jQuery(arr)
+    },
+    children() {
+      let arr = []
+      this.each((node) => {
+        arr.push(...node.children)
+      })
+      return jQuery(arr)
+    },
+    print() {
+      console.log(elements)
+    },
   }
 }

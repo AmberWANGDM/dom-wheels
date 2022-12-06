@@ -1,2 +1,1 @@
-let arr = jQuery('.test').addClass('red').addClass('blue')
-console.log(arr)
+$('.test').find('.child').addClass('red')
